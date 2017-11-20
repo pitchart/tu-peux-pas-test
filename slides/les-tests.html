@@ -1,0 +1,68 @@
+<section>
+    <h1>Les tests</h1>
+</section>
+<section>
+    <h2>Différentes perspectives, différents objectifs</h2>
+    <table>
+        <tr>
+            <th>Perspective</th>
+            <th>Objectif</th>
+        </tr>
+        <tr>
+            <td>Développeur</td>
+            <td>Détecter les bugs</td>
+        </tr>
+        <tr>
+            <td>QA</td>
+            <td>Évaluer la qualité</td>
+        </tr>
+        <tr>
+            <td>Testeur</td>
+            <td>Valider le fonctionnel par rapport aux spécifications</td>
+        </tr>
+        <tr>
+            <td>Client / PO</td>
+            <td>Vérifier le fonctionnement</td>
+        </tr>
+    </table>
+</section>
+<section>
+    <h2>Objectifs</h2>
+    <ul>
+        <li class="fragment highlight-blue">Découvrir / prévenir les bugs</li>
+        <li class="fragment highlight-blue">Accélérer les développements</li>
+        <li class="fragment highlight-blue">Permettre le refactoring</li>
+        <li class="fragment highlight-blue">Documenter le code</li>
+        <li class="fragment highlight-blue">Détecter les problèmes de design</li>
+    </ul>
+    <aside class="notes">
+      <ol>
+          <li>Valider le fonctionnement d'une méthode et les effets de bord potentiels</li>
+          <li>On ne teste pas tout à chaque modification de code</li>
+          <li>Assurer les modifications sans casse</li>
+          <li>Option testdox (cf dernière partie)</li>
+          <li>Code difficilement testable souvent lié à un problème de conception</li>
+      </ol>
+    </aside>
+</section>
+<section>
+    <h2>Pour être utiles <br><span class="fragment">et donc utilisés</span></h2>
+    <ul>
+        <li class="fragment highlight-blue">Rapides</li>
+        <li class="fragment highlight-blue"><a href="http://blog.cleancoder.com/uncle-bob/2017/10/03/TestContravariance.html">Indépendants de l'implémentation</a></li>
+        <li class="fragment highlight-blue">Décrire le comportement du système</li>
+        <li class="fragment highlight-blue">Avoir un résultat prédictible</li>
+        <li class="fragment highlight-blue">Isolés les uns des autres</li>
+        <li class="fragment highlight-blue">Simples à mettre en place</li>
+    </ul>
+    <aside class="notes">
+        <ul>
+            <li>Pouvoir être exécutés souvent, si besoin par portions</li>
+            <li>Tester les usages possibles, scinder les cas d'utilisation des classes (pas forcément une classe de test pour une classe)</li>
+            <li>Ex : ne pas affecter à la volée des propriétés uniquement initialisables</li>
+            <li>Utiliser des fixtures, ne pas se baser sur des propriétés du système</li>
+            <li>Éviter les erreurs en cascade en cas de problème</li>
+            <li>Créer des assertions pour des assertions groupées vérifiant une règle</li>
+        </ul>
+    </aside>
+</section>
