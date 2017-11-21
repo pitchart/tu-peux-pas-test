@@ -1,0 +1,188 @@
+<section>
+    <h1>Trucs et astuces</h1>
+</section>
+<section>
+    <h2>Les outils</h2>
+    <ul>
+        <li>PHPUnit</li>
+        <li>atoum</li>
+        <li>SimpleTest</li>
+        <li>WebTestCase (Symfony Framework)</li>
+        <li>liip/functional-test-bundle</li>
+        <li>prophecy</li>
+        <li>phpspec</li>
+        <li>Behat</li>
+        <li>CasperJS</li>
+        <li>...</li>
+    </ul>
+    <aside class="notes">
+        <ul>
+            <li>Spécifier une version en dépendance du projet (dev)</li>
+            <li>composer require --dev</li>
+            <li>Facilite l'automatisation</li>
+            <li>Utiliser les fichiers de configuration</li>
+            <li>make tests (tests-unit, test-functional)</li>
+            <li>make push ???</li>
+        </ul>
+    </aside>
+</section>
+<section>
+    <h2>Nommage explicite</h2>
+    <ul>
+        <li>Expliciter le but du test</li>
+        <li>La classe testée est sujet</li>
+        <li>Utiliser l'impératif <span class="fragment"><del>may</del>, <del class="fragment">should</del></span></li>
+    </ul>
+    <pre class="fragment"><code>phpunit --testdox tests/</code></pre>
+</section>
+<section>
+    <pre><code class="hljs php">
+public function test_transforms_iterables($iterable, $expected) {}
+
+public function test_transduces_into_iterator() {}
+
+public function test_maps_items_of_iterable() {}
+
+public function test_filters_items_of_iterable() {}
+    </code></pre>
+</section>
+<section>
+    <pre><code>Transformer
+ [x] transforms iterables arrays
+ [x] transforms iterables iterator instances
+ [x] transforms iterables array access instances
+ [x] transduces into iterator
+ [x] maps items of iterable
+ [x] filters items of iterable
+</code></pre>
+</section>
+<section>
+    <h2>Arrange / Act / Assert</h2>
+<pre><code class="hljs php">
+    public function test_preserves_history_when_legal_address_is_updated()
+    {
+        // Arrange
+        $legalAddress = (new Address)->setNumber(31)->setStreetType('avenue')->setStreetName('Jean François Champollion')->setZip('31100')->setCity('Toulouse');
+        $newLegalAddress = (new Address)->setNumber(38)->setStreetType('rue')->setStreetName('Capdeville')->setZip('33000')->setCity('Bordeaux');
+        // Act
+        $this->contact->setLegalAddress($legalAddress)->setLegalAddress($newLegalAddress);
+        // Assert
+        self::assertEquals($newLegalAddress, $this->contact->getLegalAddress());
+        self::assertEquals($legalAddress, $this->contact->getPreviousAddress());
+    }
+</code></pre>
+</section>
+<section>
+    <h2>Les fournisseurs de données</h2>
+    <ul>
+
+        <li>Pour tester un comportement sur des jeux de données différents</li>
+        <li>Nommer les cas d'utilisation pour plus de lisibilité</li>
+    </ul>
+    <pre><code>public function iterableProvider()
+{
+    return [
+        'array' => [range(1, 6), range(2, 7)],
+        'iterator' => [new \ArrayIterator(range(1, 6)), range(2, 7)],
+        'array access' => [new \ArrayObject(range(1, 6)), range(2, 7)],
+    ];
+}</code></pre>
+</section>
+<section>
+    <h2>Mocks & stubs</h2>
+    <p>Implémentations d'objets dédiées à l'exécution de tests</p>
+    <p class="fragment">Simplifier l'écriture d'un test</p>
+    <p class="fragment">Réduire les dépendances à l'exécution</p>
+    <p class="fragment"><a href="https://martinfowler.com/articles/mocksArentStubs.html">Mocks aren't Stubs (Martin FOWLER)</a></p>
+</section>
+<section>
+    <h3>Stubs</h3>
+    <ul>
+        <li>Implémentation spécifique aux tests</li>
+        <li>Vérification par état</li>
+        <li>Utilisation possible dans un conteneur de dépendances</li>
+        <li>Utilisation : isolation d'une dépendance (système, software, package), simplifier une dépendance complexe</li>
+    </ul>
+</section>
+<section>
+<pre><code class="hljs php">class MailerStub implements Mailer {
+
+    private $messages = [];
+
+    public function send(Message $message) {
+        $this->messages[] = $messages;
+    }
+
+    public function sent() {
+        return count($this->messages);
+    }
+}</code></pre>
+</section>
+<section>
+<pre><code class="hljs php">
+    public function test_ad_creation_sends_moderation_email() {
+        $adCreationCommand = new AdCreationCommand(...);
+        $mailer = new MailerStub;
+        $this->addCreationHandler->setMailer($mailer);
+
+        $this->addCreationHandler->handle($adCreationCommand);
+
+        self::assertEquals(1, $mailer->sent());
+    }
+</code></pre>
+</section>
+<section>
+    <h3>Mocks</h3>
+    <ul>
+        <li>Version modifiée d'une implémentation</li>
+        <li>Appels et retour de méthodes rendus prédictibles</li>
+        <li>Vérification par le comportement</li>
+    </ul>
+</section>
+<section>
+<pre><code class="hljs php">
+    public function test_ad_creation_sends_moderation_email() {
+        $adCreationCommand = new AdCreationCommand(...);
+        $mailer = $this->getMockBuilder(RealMailer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $mailer->expects(self::once())->method('send');
+        $this->addCreationHandler->setMailer($mailerMock);
+
+        $this->addCreationHandler->handle($adCreationCommand);
+    }
+</code></pre>
+</section>
+<section>
+    <h2>Factories & Builders</h2>
+    <ul>
+        <li>Expliciter la construction des objets créés / manipulés</li>
+        <li>Faciliter la maintenance des tests : </li>
+    </ul>
+</section>
+<section>
+    <pre><code class="hljs php">$legalAddress = (new Address)
+    ->setNumber(31)
+    ->setStreetType('avenue')
+    ->setStreetName('Jean François Champollion')
+    ->setZip('31100')
+    ->setCity('Toulouse');</code></pre>
+</section>
+<section>
+    <pre><code class="hljs php">class AddressBuilder {
+    public function __construct(
+        $number, $streetType, $streetName, $zip, $city
+    ) { ... }
+
+    public function build() {
+        return (new Address)->setNumber(31)
+            ->setStreetType('avenue')
+            ->setStreetName('Jean François Champollion')
+            ->setZip('31100')->setCity('Toulouse');
+    }
+}</code></pre>
+    <pre class="fragment"><code class="hljs php">$legalAddress = (new AddressBuilder(31, 'avenue', 'Jean François Champollion', '31100', 'Toulouse'))->build();</code></pre>
+</section>
+<section>
+    <img src="https://blog.gravypower.net/content/images/2013/Oct/39552583.jpg" alt="">
+</section>

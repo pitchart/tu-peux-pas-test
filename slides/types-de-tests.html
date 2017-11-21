@@ -1,0 +1,68 @@
+<section>
+    <h1>Différents niveaux de tests</h1>
+</section>
+<section>
+    <h2>Tests d'acceptation</h2>
+    <p>
+        Utilisation de l'application en "situation réelle".
+    </p>
+    <ul>
+        <li class="pros">Niveau de détail utile pour les parties prenantes,</li>
+        <li class="pros">Efficaces pour garantir que le système fonctionne du point de vue de l'utilisateur final.</li>
+        <li class="cons">Fragiles (facilement cassés par les changements prévus de l'interface utilisateur),</li>
+        <li class="cons">Plus grande marge de faux positifs</li>
+        <li class="cons">Coûteux à écrire et à entretenir</li>
+    </ul>
+    <p class="focus">RAZ des données avant exécution</p>
+</section>
+<section>
+    <h2>Tests d'intégration</h2>
+    <p>
+        Testent l'assemblage des composants unitaires entre eux.
+    </p>
+    <ul>
+        <li class="pros">Rapides à écrire</li>
+        <li class="pros">Permettent de tester la configuration d'une l'application</li>
+        <li class="cons">Risque d'obtention de tests dépendants</li>
+        <li class="cons">Complexes à maintenir (les point d'intégration sont partagés)</li>
+    </ul>
+</section>
+<section>
+    <h2>Tests unitaires</h2>
+    <p>Tests élémentaires de composants logiciel (ensemble de fonctions, classe ...).</p>
+    <ul>
+        <li class="pros">Rapides à exécuter</li>
+        <li class="pros">Rapides à mettre en place (en théorie)</li>
+        <li class="pros">Feedback efficace en cas de problème</li>
+        <li class="cons">Porté limitée</li>
+    </ul>
+</section>
+<section>
+    <h2>Couverture de code</h2>
+    <ul>
+        <li>Pourcentage de classes, fonctions, lignes de code couverts par les tests</li>
+        <li>Donne un appréciation des méthodes critiques couvertes par les tests</li>
+        <li>Fournit des métriques et permet de suivre l'évolution des tests</li>
+        <li>Ne donne pas d'indication sur la qualité des tests effectués</li>
+    </ul>
+</section>
+<section>
+    <img src="https://watirmelon.files.wordpress.com/2012/01/idealautomatedtestingpyramid.png" alt="Ideal automated testing pyramid" height="500">
+    <aside class="notes">
+        <ul>
+            <li>Temps d'exécution : rapide => long</li>
+            <li>Coût de création et maintenance : bas => élevé</li>
+            <li>Précision / fiabilité: forte => faible</li>
+        </ul>
+    </aside>
+</section>
+<section>
+    <img src="https://watirmelon.files.wordpress.com/2012/01/softwaretestingicecreamconeantipattern.png" alt="Ice cream cone testing anti pattern" height="500">
+    <aside class="notes">
+        <ul>
+            <li>Mise en place plus tardive : nécessité d'une interface utilisateur, d'une route d'API, d'IO</li>
+            <li>Détection tardive des erreurs</li>
+            <li>Plus liés à la présentation qu'aux données réelles</li>
+        </ul>
+    </aside>
+</section>
